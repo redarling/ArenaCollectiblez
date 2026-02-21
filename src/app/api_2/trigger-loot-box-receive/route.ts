@@ -15,3 +15,18 @@ export async function POST(req: NextRequest) {
     },
   );
 }
+
+export async function GET(req: NextRequest) {
+  const { userId } = await req.json();
+
+  await pusher.trigger(`user-${userId}`, 'lootbox-received', {
+    message: 'You received a lootbox!',
+  });
+
+  return NextResponse.json(
+    { success: true },
+    {
+      status: 200,
+    },
+  );
+}
